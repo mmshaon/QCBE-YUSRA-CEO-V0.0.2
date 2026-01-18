@@ -1,0 +1,157 @@
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quantum Cube Business Engine</title>
+    
+    <!-- PWA Configuration -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#7a5cff" />
+    <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        background-color: #101418;
+      }
+
+      .font-mono { font-family: 'Space Mono', monospace; }
+      
+      @keyframes ripple {
+        to {
+          transform: scale(4);
+          opacity: 0;
+        }
+      }
+      @keyframes bar-grow {
+        from { transform: scaleY(0); }
+        to { transform: scaleY(1); }
+      }
+      @keyframes float-up {
+        0% { opacity: 0; transform: translateY(20px); }
+        100% { opacity: 1; transform: translateY(0); }
+      }
+      
+      /* --- God Mode "Dangerous" Animations --- */
+      @keyframes god-glitch {
+        0% { transform: translate(0); text-shadow: -2px 0 #ff0000, 2px 0 #00f6ff; }
+        25% { transform: translate(-2px, 2px); }
+        50% { transform: translate(2px, -2px); text-shadow: 2px 0 #ff0000, -2px 0 #00f6ff; }
+        75% { transform: translate(-2px, -2px); }
+        100% { transform: translate(0); }
+      }
+
+      @keyframes neural-pulse {
+        0%, 100% { opacity: 0.3; transform: scale(1); }
+        50% { opacity: 0.6; transform: scale(1.05); filter: drop-shadow(0 0 10px #ff0000); }
+      }
+
+      @keyframes dangerous-scan {
+        0% { transform: translateY(-100%); }
+        100% { transform: translateY(100%); }
+      }
+
+      @keyframes god-border-pulse {
+        0%, 100% { border-color: rgba(255, 0, 0, 0.3); box-shadow: 0 0 5px rgba(255, 0, 0, 0.2); }
+        50% { border-color: rgba(255, 0, 0, 1); box-shadow: 0 0 20px rgba(255, 0, 0, 0.5); }
+      }
+
+      .god-mode-active {
+        --primary-accent: #ff0000;
+        --secondary-accent: #ffd700;
+        background-color: #050505 !important;
+      }
+
+      .god-mode-active .animated-border {
+        animation: god-border-pulse 2s infinite !important;
+        border-color: #ff0000 !important;
+      }
+
+      .glitch-text {
+        animation: god-glitch 0.3s infinite;
+      }
+
+      .neural-bg {
+        background-image: radial-gradient(circle at 2px 2px, rgba(255, 0, 0, 0.15) 1px, transparent 0);
+        background-size: 30px 30px;
+      }
+      
+      /* --- New Vault Animations --- */
+      @keyframes vault-scan-line {
+        0% { transform: translateY(-150px) scaleY(3); opacity: 0; }
+        20%, 80% { opacity: 1; }
+        100% { transform: translateY(150px) scaleY(3); opacity: 0; }
+      }
+
+      @keyframes ring-pulse {
+        0% { transform: scale(0.3); opacity: 0; }
+        50% { opacity: 0.8; }
+        100% { transform: scale(2); opacity: 0; }
+      }
+
+      @keyframes vault-iris-open {
+        0% { transform: scale(1) translateZ(0) rotate(0deg); opacity: 1; }
+        100% { transform: scale(0) translateZ(-400px) rotate(180deg); opacity: 0; }
+      }
+
+      @keyframes form-materialize {
+        0% { transform: scale(1.1) translateZ(-200px); opacity: 0; filter: blur(10px); }
+        100% { transform: scale(1) translateZ(0); opacity: 1; filter: blur(0px); }
+      }
+      
+      @keyframes animated-gradient-bg {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+      
+      .animated-bg {
+        background: linear-gradient(-45deg, #101418, #161a2d, #0f1220, #1C202A);
+        background-size: 400% 400%;
+        animation: animated-gradient-bg 25s ease infinite;
+      }
+
+      .god-mode-bg {
+        background: linear-gradient(-45deg, #050505, #1a0505, #0a0000, #000000);
+        background-size: 400% 400%;
+        animation: animated-gradient-bg 10s ease infinite;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.2.3",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "three": "https://esm.sh/three@0.166.1",
+    "@types/three": "https://esm.sh/@types/three@0.166.0",
+    "@google/genai": "https://esm.sh/@google/genai@^1.34.0"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').then(registration => {
+            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+          }, err => {
+            console.log('ServiceWorker registration failed: ', err);
+          });
+        });
+      }
+    </script>
+  </body>
+</html>

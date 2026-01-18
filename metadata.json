@@ -1,0 +1,7 @@
+{
+  "name": "Quantum Cube Business Cloud ",
+  "description": "A web application showcasing the technical documentation and core concepts for building a scalable, AI-enabled business system, as described in the QGBS architecture guide.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
